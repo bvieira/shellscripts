@@ -1,0 +1,18 @@
+#!/usr/bin/expect -f
+
+set password [lindex $argv 0];
+set output [open "outputfile.txt" "w"]
+# connect via scp
+spawn ../scripts/expect-execute.sh
+#######################
+expect {
+  -re ".*es.*o.*" {
+    exp_send "yes\r"
+    exp_continue
+  }
+  -re ".*sword.*" {
+    exp_send "$password\r"
+  }
+}
+close $output
+interact
